@@ -9,7 +9,17 @@ exports.handler = async function(event, context, callback) {
     //         context
     //     }
     // });
-    return {event, context}
+    let response = {
+        statusCode: 200,
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            event,
+            context
+        })
+    }
+    return response
     const octokit = new Octokit({
         auth: process.env.API_KEY
     })
