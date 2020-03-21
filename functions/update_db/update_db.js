@@ -1,10 +1,10 @@
 const { Octokit } = require('@octokit/rest')
 
 exports.handler = async function(event, context, callback) {
-    const ockokit = new Octokit({
+    const octokit = new Octokit({
         auth: process.env.API_KEY
     })
-    const data = await ocktokit.repos.getContents({
+    const data = await octokit.repos.getContents({
         owner: 'makovako-tutorials',
         repo: 'repo-db-test',
         path:'/db.json'
@@ -15,7 +15,7 @@ exports.handler = async function(event, context, callback) {
     const sha = data.data.sha
     db.push(Math.floor(Math.random()*100))
     const contents = Buffer.from(JSON.stringify(db)).toString('base64')
-    const resp = await ocktokit.repos.createOrUpdateFile({
+    const resp = await octokit.repos.createOrUpdateFile({
         owner: 'makovako-tutorials',
         repo: 'repo-db-test',
         path: 'db.json',
