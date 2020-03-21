@@ -1,16 +1,8 @@
 const { Octokit } = require('@octokit/rest')
 
 exports.handler = async function(event, context, callback) {
-    // console.log(JSON.parse(event))
-    // callback(null, {
-    //     statusCode: 200,
-    //     body: {
-    //         event,
-    //         context
-    //     }
-    // });
     const auth = event.headers.authorization
-    const resp = auth === process.env.EVENT_API_KEY ? 'OK' : 'NOK'
+    const answer = auth === process.env.EVENT_API_KEY ? 'OK' : 'NOK'
 
     let response = {
         statusCode: 200,
@@ -18,7 +10,7 @@ exports.handler = async function(event, context, callback) {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
-            resp
+            answer
         })
     }
     return response
