@@ -9,15 +9,16 @@ exports.handler = async function(event, context, callback) {
     //         context
     //     }
     // });
-    const {headers, body} = event
+    const auth = event.headers.authorization
+    const resp = auth === process.env.EVENT_API_KEY ? 'OK' : 'NOK'
+
     let response = {
         statusCode: 200,
         headers: {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
-            headers,
-            body
+            resp
         })
     }
     return response
