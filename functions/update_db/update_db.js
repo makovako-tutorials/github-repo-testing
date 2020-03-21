@@ -9,14 +9,15 @@ exports.handler = async function(event, context, callback) {
     //         context
     //     }
     // });
+    const {headers, body} = event
     let response = {
         statusCode: 200,
         headers: {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
-            event,
-            context
+            headers,
+            body
         })
     }
     return response
