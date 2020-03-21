@@ -1,15 +1,15 @@
 const { Octokit } = require('@octokit/rest')
 
 exports.handler = async function(event, context, callback) {
-    console.log(JSON.parse(event))
+    // console.log(JSON.parse(event))
     callback(null, {
         statusCode: 200,
         body: {
-            status: resp.status,
-            message: resp.data.commit.message
+            event,
+            context
         }
-        });
-        return
+    });
+    return
     const octokit = new Octokit({
         auth: process.env.API_KEY
     })
