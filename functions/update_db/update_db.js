@@ -9,6 +9,8 @@ exports.handler = async function(event, context, callback) {
         repo: 'repo-db-test',
         path:'/db.json'
     })
+    console.log('Hello');
+    
     let db = JSON.parse(Buffer.from(data.data.content, 'base64').toString())
     const sha = data.data.sha
     db.push(Math.floor(Math.random()*100))
