@@ -9,7 +9,7 @@ exports.handler = async function(event, context, callback) {
     //         context
     //     }
     // });
-    return {event, content}
+    return {event, context}
     const octokit = new Octokit({
         auth: process.env.API_KEY
     })
