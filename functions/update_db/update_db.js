@@ -14,14 +14,19 @@ exports.handler = async function(event, context, callback) {
         
         let db = JSON.parse(Buffer.from(data.data.content, 'base64').toString())
         const sha = data.data.sha
-        const payload = Math.floor(Math.random()*100)
+        const randomNumber = Math.floor(Math.random()*100)
+        const currentDate = new Date().toISOString()
+        const payload = {
+            currentDate,
+            randomNumber
+        }
         db.push(payload)
         const contents = Buffer.from(JSON.stringify(db)).toString('base64')
         const resp = await octokit.repos.createOrUpdateFile({
             owner: 'makovako-tutorials',
             repo: 'repo-db-test',
             path: 'db.json',
-            message: `Updated at ${new Date().toISOString()}`,
+            message: `Updated at ${currentDate}`,
             content: contents,
             committer: {
                 name: 'Test bot app',
