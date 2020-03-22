@@ -5,11 +5,22 @@ exports.handler = async function(event, context, callback) {
     const cheerio = require("cheerio");
     const uuid = require("uuid");
     const AWS = require("aws-sdk");
+
+    const {
+        CST_AWS_REGION,
+        CST_AWS_ACCESS_KEY_ID,
+        CST_AWS_SECRET_ACCESS_KEY,
+        CST_AWS_DYNAMODB_TABLE_NAME
+    } = process.env
+
     AWS.config.update({
-      region: process.env.AWS_REGION
-    });
+      region: CST_AWS_REGION,
+      credentials: new AWS.Credentials({
+          accessKeyId: CST_AWS_ACCESS_KEY_ID,
+          secretAccessKey: CST_AWS_SECRET_ACCESS_KEY
+      })
+    })
     const dynamodb = new AWS.DynamoDB();
-    const AWS_DYNAMODB_TABLE_NAME = process.env.AWS_DYNAMODB_TABLE_NAME;
     const github_data = await fetch(
       "https://api.github.com/repos/makovako-tutorials/repo-db-test/contents/db.json"
     );
@@ -32,7 +43,7 @@ exports.handler = async function(event, context, callback) {
         const currentDate = new Date(date).toISOString();
 
         await dynamodb.putItem({
-            TableName: AWS_DYNAMODB_TABLE_NAME,
+            TableName: CST_AWS_DYNAMODB_TABLE_NAME,
             Item: {
                 id: {S: uuid.v4()},
                 alzaId: {S: id},
