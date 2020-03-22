@@ -46,11 +46,12 @@ exports.handler = async function(event, context, callback) {
                 .text()
                 .slice(0,-2)
                 .replace(',','.'))
-            const currentPrice = parseFloat(
+            const currentPrice = parse_price(
                 $('.bigPrice','table#prices')
-                .text()
-                .slice(0,-2)
-                .replace(',','.'))
+            )
+            console.log(`currentprice: ${currentPrice}`);
+            
+            
             const date = Date.now()
             const currentDate = new Date(date).toISOString()
 
@@ -121,4 +122,10 @@ exports.handler = async function(event, context, callback) {
 
 const create_url = (id) => {
         return `https://www.alza.sk/${id}.htm`
+}
+
+const parse_price = (price) => {
+    console.log(`price: ${price}`);
+    
+    return parseFloat(price.slice(0,-2).replace(',','.'))
 }
