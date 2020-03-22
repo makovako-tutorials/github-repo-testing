@@ -47,7 +47,7 @@ exports.handler = async function(event, context, callback) {
                 .slice(0,-2)
                 .replace(',','.'))
             const currentPrice = parse_price(
-                $('.bigPrice','table#prices')
+                $('.bigPrice','table#prices').text()
             )
             console.log(`currentprice: ${currentPrice}`);
             
