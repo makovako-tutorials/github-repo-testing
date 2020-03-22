@@ -22,7 +22,7 @@ exports.handler = async function(event, context, callback) {
     });
     const dynamodb = new AWS.DynamoDB();
     const github_response = await fetch(
-      "https://api.github.com/repos/makovako-tutorials/repo-db-test/contents/db.json"
+      "https://api.github.com/repos/makovako-tutorials/repo-db-test/contents/items.json"
     );
     console.log(`Github response: ${github_response}`);
     const github_data = await github_response.json();
