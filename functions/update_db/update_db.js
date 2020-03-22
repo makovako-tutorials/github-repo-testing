@@ -17,8 +17,6 @@ exports.handler = async function(event, context, callback) {
         });
         const items = JSON.parse(Buffer.from(items_data.data.content,'base64').toString())
         const ids = items.map(item => item.id)
-        console.log(`ids: ${ids}`);
-        
 
         const data = await octokit.repos.getContents({
             owner: 'makovako-tutorials',
@@ -37,7 +35,7 @@ exports.handler = async function(event, context, callback) {
         // }
         // db.push(payload)
         let response_db = []
-        ids.map(async id => {
+        const x = ids.map(async id => {
             const url = create_url(id)
             const alza_response = await fetch(url)
             const alza_data = await alza_response.text()
@@ -59,6 +57,8 @@ exports.handler = async function(event, context, callback) {
             response_db.push(payload)
 
         })
+        console.log(`x: ${x}`);
+        
 
         const contents = Buffer.from(JSON.stringify(db)).toString('base64')
         const resp = await octokit.repos.createOrUpdateFile({
