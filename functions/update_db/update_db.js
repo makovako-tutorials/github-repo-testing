@@ -35,11 +35,10 @@ exports.handler = async function(event, context, callback) {
 
             const $ = cheerio.load(alza_data)
             const strCurrentPrice = $('.bigPrice','table#prices').text()
-            const originalPrice = parseFloat(
-                $('.crossPrice','table#prices')
-                .text()
-                .slice(0,-2)
-                .replace(',','.'))
+            console.log(`strCurrentPrice ${strCurrentPrice}`);
+            
+            const originalPrice = $('.crossPrice','table#prices').text()
+                
             const currentPrice = parse_price(
                 strCurrentPrice
             )
