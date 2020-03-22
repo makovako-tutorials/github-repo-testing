@@ -35,14 +35,15 @@ exports.handler = async function(event, context, callback) {
 
             const $ = cheerio.load(alza_data)
             const strCurrentPrice = $('.bigPrice','table#prices').text()
-            console.log(`strCurrentPrice ${strCurrentPrice}`);
+            const strOriginalPrice = $('.crossPrice','table#prices').text()
+            console.log(`strCurrentPrice ${strCurrentPrice}, strOriginalPrice: ${strOriginalPrice}`);
             
-            const originalPrice = $('.crossPrice','table#prices').text()
+            const originalPrice = parse_price(strOriginalPrice)
                 
             const currentPrice = parse_price(
                 strCurrentPrice
             )
-            console.log(`currentprice: ${currentPrice}`);
+            console.log(`currentprice: ${currentPrice}, originalprice: ${originalPrice}`);
             
             
             const date = Date.now()
@@ -118,7 +119,5 @@ const create_url = (id) => {
 }
 
 const parse_price = (price) => {
-    console.log(`price: ${price}`);
-    
     return parseFloat(price.slice(0,-2).replace(',','.'))
 }
