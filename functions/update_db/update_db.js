@@ -37,7 +37,7 @@ exports.handler = async function(event, context, callback) {
         // }
         // db.push(payload)
         let response_db = []
-        Promise.all(ids.map(async id => {
+        ids.map(id => {
             const url = create_url(id)
             const alza_response = await fetch(url)
             const alza_data = await alza_response.text()
@@ -58,7 +58,7 @@ exports.handler = async function(event, context, callback) {
             db.push(payload)
             response_db.push(payload)
 
-        }))
+        })
 
         const contents = Buffer.from(JSON.stringify(db)).toString('base64')
         const resp = await octokit.repos.createOrUpdateFile({
