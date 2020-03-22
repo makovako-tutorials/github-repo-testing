@@ -26,9 +26,9 @@ exports.handler = async function(event, context, callback) {
     );
     console.log(`Github response: ${github_response}`);
     const github_data = await github_response.json();
-    console.log(`Github data: ${github_data}`);
+    console.log(`Github data: ${github_data.content}`);
     const github_content = JSON.parse(
-      Buffer.from(github_data.data.content, "base64").toString()
+      Buffer.from(github_data.content, "base64").toString()
     );
     const ids = github_content.map(item => item.id);
     let db = [];
