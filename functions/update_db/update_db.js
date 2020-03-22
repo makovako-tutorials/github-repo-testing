@@ -41,8 +41,16 @@ exports.handler = async function(event, context, callback) {
             const alza_data = await alza_response.text()
 
             const $ = cheerio.load(alza_data)
-            const originalPrice = $('.crossPrice','table#prices').text()
-            const currentPrice = $('.bigPrice','table#prices').text()
+            const originalPrice = parseFloat(
+                $('.crossPrice','table#prices')
+                .text()
+                .slice(0,-2)
+                .replace(',','.'))
+            const currentPrice = parseFloat(
+                $('.bigPrice','table#prices')
+                .text()
+                .slice(0,-2)
+                .replace(',','.'))
             const date = Date.now()
             const currentDate = new Date(date).toISOString()
 
@@ -57,8 +65,8 @@ exports.handler = async function(event, context, callback) {
             response_db.push(payload)
 
         }))
-        console.log(`x: ${x}`);
-        console.log(`response_db: ${response_db}`)
+        // console.log(`x: ${x}`);
+        // console.log(`response_db: ${response_db}`)
         
 
         const contents = Buffer.from(JSON.stringify(db)).toString('base64')
