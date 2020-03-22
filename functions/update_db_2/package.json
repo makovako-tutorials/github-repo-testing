@@ -1,0 +1,18 @@
+{
+  "name": "update_db_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "update_db_2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.643.0",
+    "cheerio": "^1.0.0-rc.3",
+    "node-fetch": "^2.6.0",
+    "uuid": "^7.0.2"
+  }
+}
