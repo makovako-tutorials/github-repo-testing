@@ -27,13 +27,6 @@ exports.handler = async function(event, context, callback) {
         let db = JSON.parse(Buffer.from(data.data.content, 'base64').toString())
         const sha = data.data.sha
 
-        // const randomNumber = Math.floor(Math.random()*100)
-        // const currentDate = new Date().toISOString()
-        // const payload = {
-        //     currentDate,
-        //     randomNumber
-        // }
-        // db.push(payload)
         let response_db = []
         const x = await Promise.all(ids.map(async id => {
             const url = create_url(id)
@@ -41,13 +34,14 @@ exports.handler = async function(event, context, callback) {
             const alza_data = await alza_response.text()
 
             const $ = cheerio.load(alza_data)
+            const strCurrentPrice = $('.bigPrice','table#prices').text()
             const originalPrice = parseFloat(
                 $('.crossPrice','table#prices')
                 .text()
                 .slice(0,-2)
                 .replace(',','.'))
             const currentPrice = parse_price(
-                $('.bigPrice','table#prices').text()
+                strCurrentPrice
             )
             console.log(`currentprice: ${currentPrice}`);
             
