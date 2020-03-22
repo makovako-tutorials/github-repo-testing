@@ -21,9 +21,10 @@ exports.handler = async function(event, context, callback) {
       })
     })
     const dynamodb = new AWS.DynamoDB();
-    const github_data = await fetch(
+    const github_response = await fetch(
       "https://api.github.com/repos/makovako-tutorials/repo-db-test/contents/db.json"
     );
+    const github_data = await github_response.json()
     const github_content = JSON.parse(
       Buffer.from(github_data.data.content, "base64").toString()
     );
