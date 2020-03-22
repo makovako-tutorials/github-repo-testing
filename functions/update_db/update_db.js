@@ -35,7 +35,7 @@ exports.handler = async function(event, context, callback) {
         // }
         // db.push(payload)
         let response_db = []
-        const x = ids.map(async id => {
+        const x = Promise.all(ids.map(async id => {
             const url = create_url(id)
             const alza_response = await fetch(url)
             const alza_data = await alza_response.text()
@@ -56,8 +56,9 @@ exports.handler = async function(event, context, callback) {
             db.push(payload)
             response_db.push(payload)
 
-        })
+        }))
         console.log(`x: ${x}`);
+        console.log(`response_db: ${response_db}`)
         
 
         const contents = Buffer.from(JSON.stringify(db)).toString('base64')
