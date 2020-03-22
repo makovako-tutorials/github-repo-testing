@@ -51,9 +51,9 @@ exports.handler = async function(event, context, callback) {
             Item: {
               id: { S: uuid.v4() },
               alzaId: { S: id },
-              originalPrice: { N: originalPrice },
-              currentPrice: { N: originalPrice },
-              date: { S: date },
+              originalPrice: { N: originalPrice.toString() },
+              currentPrice: { N: originalPrice.toString() },
+              date: { N: date.toString() },
               currentDate: { S: currentDate }
             }
           })
