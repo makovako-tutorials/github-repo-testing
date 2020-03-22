@@ -7,24 +7,26 @@ exports.handler = async function(event, context, callback) {
     const AWS = require("aws-sdk");
 
     const {
-        CST_AWS_REGION,
-        CST_AWS_ACCESS_KEY_ID,
-        CST_AWS_SECRET_ACCESS_KEY,
-        CST_AWS_DYNAMODB_TABLE_NAME
-    } = process.env
+      CST_AWS_REGION,
+      CST_AWS_ACCESS_KEY_ID,
+      CST_AWS_SECRET_ACCESS_KEY,
+      CST_AWS_DYNAMODB_TABLE_NAME
+    } = process.env;
 
     AWS.config.update({
       region: CST_AWS_REGION,
       credentials: new AWS.Credentials({
-          accessKeyId: CST_AWS_ACCESS_KEY_ID,
-          secretAccessKey: CST_AWS_SECRET_ACCESS_KEY
+        accessKeyId: CST_AWS_ACCESS_KEY_ID,
+        secretAccessKey: CST_AWS_SECRET_ACCESS_KEY
       })
-    })
+    });
     const dynamodb = new AWS.DynamoDB();
     const github_response = await fetch(
       "https://api.github.com/repos/makovako-tutorials/repo-db-test/contents/db.json"
     );
-    const github_data = await github_response.json()
+    console.log(`Github response: ${github_response}`);
+    const github_data = await github_response.json();
+    console.log(`Github data: ${github_data}`);
     const github_content = JSON.parse(
       Buffer.from(github_data.data.content, "base64").toString()
     );
@@ -43,17 +45,19 @@ exports.handler = async function(event, context, callback) {
         const date = Date.now();
         const currentDate = new Date(date).toISOString();
 
-        await dynamodb.putItem({
+        await dynamodb
+          .putItem({
             TableName: CST_AWS_DYNAMODB_TABLE_NAME,
             Item: {
-                id: {S: uuid.v4()},
-                alzaId: {S: id},
-                originalPrice: {N: originalPrice},
-                currentPrice: {N: originalPrice},
-                date: {S: date},
-                currentDate: {S: currentDate}
+              id: { S: uuid.v4() },
+              alzaId: { S: id },
+              originalPrice: { N: originalPrice },
+              currentPrice: { N: originalPrice },
+              date: { S: date },
+              currentDate: { S: currentDate }
             }
-        }).promise()
+          })
+          .promise();
 
         const payload = {
           id,
