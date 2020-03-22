@@ -36,7 +36,7 @@ exports.handler = async function(event, context, callback) {
         //     randomNumber
         // }
         // db.push(payload)
-
+        let response_db = []
         Promise.all(ids.map(async id => {
             const url = create_url(id)
             const alza_response = await fetch(url)
@@ -56,6 +56,7 @@ exports.handler = async function(event, context, callback) {
                 currentDate
             }
             db.push(payload)
+            response_db.push(payload)
 
         }))
 
@@ -64,7 +65,7 @@ exports.handler = async function(event, context, callback) {
             owner: 'makovako-tutorials',
             repo: 'repo-db-test',
             path: 'db.json',
-            message: `Updated at ${currentDate}`,
+            message: `Updated at ${new Date().toISOString()}`,
             content: contents,
             committer: {
                 name: 'Test bot app',
@@ -78,7 +79,7 @@ exports.handler = async function(event, context, callback) {
                 "Content-type": "application/json"
             },
             body: JSON.stringify({
-                payload,
+                payload: response_db,
                 status: resp.status,
                 message: resp.data.commit.message
 
