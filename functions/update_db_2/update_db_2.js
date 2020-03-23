@@ -33,9 +33,13 @@ exports.handler = async function(event, context, callback) {
     const x = await Promise.all(
       ids.map(async id => {
         const url = create_url(id);
+        console.log(`url: ${url}`);
         const alza_response = await fetch(url);
+        if (!alza_response.ok) return handle_error(`No response from alza, ${response.status}`)
         const alza_data = await alza_response.text();
         const $ = cheerio.load(alza_data);
+        console.log(`cheerio length: ${$.length}`);
+        
         const strCurrentPrice = $(".bigPrice", "table#prices").text();
         const strOriginalPrice = $(".crossPrice", "table#prices").text();
         console.log(`strCurrentPrice: "${strCurrentPrice}", strOriginalPrice: "${strOriginalPrice}"`);
@@ -80,6 +84,7 @@ exports.handler = async function(event, context, callback) {
     };
     return response;
   } else {
+    return handle_error("Wrong authorization")
     let response = {
       statusCode: 401,
       headers: {
@@ -92,6 +97,19 @@ exports.handler = async function(event, context, callback) {
     return response;
   }
 };
+
+const handle_error = (message, code=500) => {
+    let response = {
+        statusCode: code,
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          msg: message
+        })
+      };
+      return response;
+}
 
 const create_url = id => {
   return `https://www.alza.sk/${id}.htm`;
