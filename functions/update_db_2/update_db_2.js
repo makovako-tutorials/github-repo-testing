@@ -38,8 +38,10 @@ exports.handler = async function(event, context, callback) {
         const $ = cheerio.load(alza_data);
         const strCurrentPrice = $(".bigPrice", "table#prices").text();
         const strOriginalPrice = $(".crossPrice", "table#prices").text();
+        console.log(`strCurrentPrice: "${strCurrentPrice}", strOriginalPrice: "${strOriginalPrice}"`);
         const originalPrice = parse_price(strOriginalPrice);
         const currentPrice = parse_price(strCurrentPrice);
+        console.log(`CurrentPrice: "${currentPrice}", OriginalPrice: "${originalPrice}"`);
         const date = Date.now();
         const currentDate = new Date(date).toISOString();
 
